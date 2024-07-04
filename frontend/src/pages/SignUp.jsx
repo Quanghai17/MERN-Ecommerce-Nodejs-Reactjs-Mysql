@@ -3,6 +3,8 @@ import loginIcons from '../assest/Customer.png'
 import { Link, useNavigate } from 'react-router-dom';
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
+import { toast } from 'react-hot-toast';
+import axios from 'axios'
 
 const SignUp = () => {
     const [showPassword, setShowPassword] = useState(false)
@@ -11,7 +13,7 @@ const SignUp = () => {
         name: "",
         email: "",
         password: "",
-        confirmPassword : "",
+        confirmPassword: "",
     })
     const navigate = useNavigate()
 
@@ -30,9 +32,27 @@ const SignUp = () => {
         e.preventDefault()
         e.stopPropagation()
 
-        navigate('/')
+        const URL = `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/signup`
+
+        try {
+            const response = await axios.post(URL, data)
+            toast.success(response.data.message)
+
+            if (response.data.success) {
+                setData({
+                    name: "",
+                    email: "",
+                    password: "",
+                })
+
+                navigate('/login')
+            }
+        } catch (error) {
+            console.log(error)
+            toast.error(error?.response?.data?.message)
+        }
     }
-    console.log("data", data)
+   // console.log("data", data)
     return (
         <section id='signup'>
             <div className='mx-auto container p-4'>
@@ -40,7 +60,7 @@ const SignUp = () => {
                     <div className='w-20 h-20 mx-auto'>
                         <img src={loginIcons} alt='login icons' />
                     </div>
-                    
+
                     <form className='pt-6 flex flex-col gap-2' onSubmit={handleSubmit}>
                         <div className='grid'>
                             <label>Họ và Tên : </label>
