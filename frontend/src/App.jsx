@@ -7,11 +7,13 @@ function App() {
 
   return (
     <>
-      <Header />
-      <main>
-        <Outlet />
-      </main>
-      <Footer />
+      <div className="app">
+        <Header />
+        <main className='min-h-[calc(50vh-120px)] pt-16'>
+          <Outlet />
+        </main>
+        <Footer />
+      </div>
     </>
   )
 }
