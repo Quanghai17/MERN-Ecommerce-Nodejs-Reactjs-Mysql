@@ -31,28 +31,31 @@ const SignUp = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         e.stopPropagation()
+        if (data.password === data.confirmPassword) {
+            const URL = `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/signup`
 
-        const URL = `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/signup`
+            try {
+                const response = await axios.post(URL, data)
+                toast.success(response.data.message)
 
-        try {
-            const response = await axios.post(URL, data)
-            toast.success(response.data.message)
+                if (response.data.success) {
+                    setData({
+                        name: "",
+                        email: "",
+                        password: "",
+                    })
 
-            if (response.data.success) {
-                setData({
-                    name: "",
-                    email: "",
-                    password: "",
-                })
-
-                navigate('/login')
+                    navigate('/login')
+                }
+            } catch (error) {
+                console.log(error.response.data)
+                toast.error(error?.response?.data?.message)
             }
-        } catch (error) {
-            console.log(error)
-            toast.error(error?.response?.data?.message)
+        } else {
+            toast.error("Mật khẩu xác thực không khớp")
         }
     }
-   // console.log("data", data)
+    // console.log("data", data)
     return (
         <section id='signup'>
             <div className='mx-auto container p-4'>

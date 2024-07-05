@@ -10,8 +10,8 @@ async function userSignUpController(req,res){
         console.log("user",user)
 
         if(user){
-            return response.status(400).json({
-                message : "Already user exits",
+            return res.status(400).json({
+                message : "Tài khoản email đã được đăng kí",
                 error : true,
             })
         }
@@ -46,16 +46,15 @@ async function userSignUpController(req,res){
             data : saveUser,
             success : true,
             error : false,
-            message : "User created Successfully!"
+            message : "Đăng kí tài khoản thành công!"
         })
 
 
-    }catch(err){
-        res.json({
-            message : err.message || err  ,
-            error : true,
-            success : false,
-        })
+    }catch(error){
+        return res.status(500).json({
+            message: error.message || error,
+            error: true
+        });
     }
 }
 
