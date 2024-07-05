@@ -1,10 +1,39 @@
+import { useState } from "react";
 import Logo from "./Logo";
 import { GrSearch } from "react-icons/gr";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { FaShoppingCart } from "react-icons/fa";
 import { Link } from 'react-router-dom';
+import { useSelector } from "react-redux";
+import axios from 'axios'
+import { toast } from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
+import { setUserDetails } from '../store/userSlice';
+import ROLE from '../common/role';
 
 const Header = () => {
+  const user = useSelector(state => state?.user?.user);
+  const [menuDisplay, setMenuDisplay] = useState(false)
+  const dispatch = useDispatch();
+  const handleLogout = async () => {
+    const URL = `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/userLogout`
+
+    try {
+      const response = await axios({
+        method: "GET",
+        url: URL,
+        withCredentials: true,
+      })
+      const dataApi = response.data;
+      if (dataApi.success) {
+        toast.success(dataApi.message)
+        dispatch(setUserDetails(null))
+      }
+      // console.log("user detail", dataApi)
+    } catch (error) {
+      toast.error(error?.dataResponse?.data?.message)
+    }
+  }
   return (
     <header className='h-26 shadow-md bg-white w-full z-40 fixed'>
       <div className="h-full container mx-auto flex items-center px-4 justify-between">
@@ -20,9 +49,36 @@ const Header = () => {
         </div>
 
         <div className="lg:flex items-center justify-between gap-4">
-          <div className="text-3xl cursor-pointer">
-            <FaRegCircleUser />
+          <div className="relative group flex justify-center">
+            {
+              user?.id && (
+                <div className='text-3xl cursor-pointer relative flex justify-center' onClick={() => setMenuDisplay(preve => !preve)}>
+                  <FaRegCircleUser />
+                </div>
+              )
+            }
+
+            {
+              menuDisplay && (
+                <div className='absolute bg-white bottom-0 top-11 h-fit p-2 shadow-lg rounded' >
+                  <nav>
+                    {
+                      user?.role === ROLE.ADMIN && (
+                        <Link to={"/admin-panel/all-products"} className='whitespace-nowrap hidden md:block hover:bg-slate-100 p-2' onClick={() => setMenuDisplay(preve => !preve)}>Admin Panel</Link>
+                      )
+                    }
+
+                    {
+                      user?.role === ROLE.GENERAL && (
+                        <Link className='whitespace-nowrap hidden md:block hover:bg-slate-100 p-2' onClick={() => setMenuDisplay(preve => !preve)}>Thông tin cá nhân</Link>
+                      )
+                    }
+                  </nav>
+                </div>
+              )
+            }
           </div>
+
 
           <div>
             <Link to={"/cart"} className='text-2xl relative'>
@@ -34,7 +90,14 @@ const Header = () => {
           </div>
 
           <div>
-            <Link to={"/login"} className='px-3 py-2 rounded-full text-white bg-blue-500 hover:bg-blue-700'>Đăng nhập</Link>
+            {
+              user?.id ? (
+                <button onClick={handleLogout} className='px-3 py-1 rounded-full text-white bg-blue-600 hover:bg-blue-700'>Đăng xuất</button>
+              )
+                : (
+                  <Link to={"/login"} className='px-3 py-2 rounded-full text-white bg-blue-500 hover:bg-blue-700'>Đăng nhập</Link>
+                )
+            }
           </div>
         </div>
       </div>

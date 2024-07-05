@@ -7,8 +7,11 @@ import axios from 'axios'
 import { useEffect } from 'react'
 import { toast } from 'react-hot-toast';
 import Context from "./context/index"
+import { useDispatch } from 'react-redux';
+import { setUserDetails } from './store/userSlice';
 
 function App() {
+  const dispatch = useDispatch()
   const userDetail = async () => {
     const URL = `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/userDetail`
 
@@ -19,6 +22,9 @@ function App() {
         withCredentials: true,
       })
       const dataApi = dataResponse.data;
+      if (dataApi.success) {
+        dispatch(setUserDetails(dataApi.data))
+      }
       // console.log("user detail", dataApi)
     } catch (error) {
       toast.error(error?.dataResponse?.data?.message)
