@@ -8,6 +8,7 @@ const userDetailsController = require("../controller/user/userDetails")
 const userLogoutController = require("../controller/user/userLogout")
 
 const authController = require("../controller/admin/auth/authController")
+const createProduct = require("../controller/admin/product/createProduct")
 
 //api user
 router.post("/signup",userSignUpController)
@@ -17,5 +18,7 @@ router.get("/userLogout",userLogoutController)
 
 //api admin
 router.post("/admin/login",authController)
+//product admin
+router.post("/admin/createProduct",authToken, createProduct)
 
 module.exports = router
