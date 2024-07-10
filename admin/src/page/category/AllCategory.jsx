@@ -6,13 +6,12 @@ import { MdModeEditOutline } from "react-icons/md";
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
 
-const AllProduct = () => {
+const AllCategory = () => {
 
-    const [products, setProducts] = useState([]);
+    const [categories, setCategories] = useState([])
 
-    const getAllProduct = async () => {
-        const URL = `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/admin/products`
-
+    const getAllCategories = async () => {
+        const URL = `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/admin/categories`
         try {
             const response = await axios({
                 method: "GET",
@@ -20,16 +19,16 @@ const AllProduct = () => {
                 withCredentials: true,
             })
 
-            const dataProduct = response.data.data;
-          //  console.log(dataProduct);
-            setProducts(dataProduct);
+            const dataCategories = response.data.data;
+            setCategories(dataCategories);
+
         } catch (error) {
             toast.error(error?.dataResponse?.data?.message)
         }
     }
 
     useEffect(() => {
-        getAllProduct()
+        getAllCategories()
     }, [])
 
     return (
@@ -39,11 +38,11 @@ const AllProduct = () => {
                     <div className='w-full sm:overflow-auto p-4'>
                         <header className="relative flex items-center justify-between">
                             <div className="text-xl font-bold text-navy-700 dark:text-white">
-                                Danh sách sản phẩm
+                                Danh sách danh mục
                             </div>
-                            <Link to={"/product/createProduct"}>
+                            <Link to={"/category/createCategory"}>
                                 <button className="linear rounded-[20px] bg-brand-900 px-4 py-2 text-base font-medium text-white transition duration-200 hover:bg-brand-500 active:bg-gray-200 dark:bg-white/5 dark:text-white dark:hover:bg-white/10 dark:active:bg-white/20">
-                                    Thêm sản phẩm
+                                    Thêm danh mục
                                 </button>
                             </Link>
                         </header>
@@ -63,7 +62,7 @@ const AllProduct = () => {
                                         </th>
                                         <th className="border-b border-gray-200 pr-16 pb-[10px] text-start dark:!border-navy-700">
                                             <div className="text-xs font-bold tracking-wide text-gray-600 lg:text-xs">
-                                                Tên Sản Phẩm
+                                                Tên danh mục
                                             </div>
                                         </th>
                                         <th className="border-b border-gray-200 pr-16 pb-[10px] text-start dark:!border-navy-700">
@@ -73,22 +72,7 @@ const AllProduct = () => {
                                         </th>
                                         <th className="border-b border-gray-200 pr-16 pb-[10px] text-start dark:!border-navy-700">
                                             <div className="text-xs font-bold tracking-wide text-gray-600 lg:text-xs">
-                                                Giá tiền
-                                            </div>
-                                        </th>
-                                        <th className="border-b border-gray-200 pr-16 pb-[10px] text-start dark:!border-navy-700">
-                                            <div className="text-xs font-bold tracking-wide text-gray-600 lg:text-xs">
-                                                Số lượng bán
-                                            </div>
-                                        </th>
-                                        <th className="border-b border-gray-200 pr-16 pb-[10px] text-start dark:!border-navy-700">
-                                            <div className="text-xs font-bold tracking-wide text-gray-600 lg:text-xs">
-                                                Tồn kho
-                                            </div>
-                                        </th>
-                                        <th className="border-b border-gray-200 pr-16 pb-[10px] text-start dark:!border-navy-700">
-                                            <div className="text-xs font-bold tracking-wide text-gray-600 lg:text-xs">
-                                                Danh mục
+                                                Mô tả
                                             </div>
                                         </th>
                                         <th className="border-b border-gray-200 pr-16 pb-[10px] text-start dark:!border-navy-700">
@@ -99,7 +83,7 @@ const AllProduct = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {products.map((product, index) => (
+                                    {categories.map((category, index) => (
                                         <tr key={index}>
                                             <td>
                                                 <div className="flex items-center gap-2">
@@ -110,29 +94,20 @@ const AllProduct = () => {
                                                 {index + 1}
                                             </td>
                                             <td className="pt-[14px] pb-[16px] sm:text-[14px]">
-                                                {product.name}
+                                                {category.name}
                                             </td>
                                             <td className="pt-[14px] pb-[16px] sm:text-[14px]">
                                                 <img
-                                                    src={`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/${product.imageUrl}`}
-                                                    alt={product.name}
+                                                    src={`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/${category.imageUrl}`}
+                                                    alt={category.name}
                                                     style={{ width: '70px', height: 'auto' }}
                                                 />
                                             </td>
                                             <td className="pt-[14px] pb-[16px] sm:text-[14px]">
-                                                {product.price}
+                                                {category.description}
                                             </td>
                                             <td className="pt-[14px] pb-[16px] sm:text-[14px]">
-                                                {product.sellNumber}
-                                            </td>
-                                            <td className="pt-[14px] pb-[16px] sm:text-[14px]">
-                                                {product.stock}
-                                            </td>
-                                            <td className="pt-[14px] pb-[16px] sm:text-[14px]">
-                                                {product.Category?.name}
-                                            </td>
-                                            <td className="pt-[14px] pb-[16px] sm:text-[14px]">
-                                                <MdModeEditOutline className="h-5 w-5"/>
+                                                <MdModeEditOutline className="h-5 w-5" />
                                             </td>
                                         </tr>
                                     ))}
@@ -146,4 +121,4 @@ const AllProduct = () => {
     )
 }
 
-export default AllProduct
+export default AllCategory

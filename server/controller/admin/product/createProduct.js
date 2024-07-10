@@ -8,7 +8,8 @@ async function CreateProductController(req, res) {
             throw new Error("Permission denied")
         }
         //  console.log("product", req.body)
-        const { name, price, description, stock, imageUrl, sellNumber, body } = req.body;
+        const { name, price, description, stock, sellNumber, body, categoryId } = req.body;
+        const imageUrl = req.file ? req.file.path : null; 
 
         const newProduct = await productModel.create({
             name,
@@ -17,7 +18,8 @@ async function CreateProductController(req, res) {
             stock,
             imageUrl,
             sellNumber,
-            body
+            body,
+            categoryId
           });
 
         res.status(201).json({

@@ -52,6 +52,21 @@ const Sidebar = ({ open, onClose }) => {
                         </div>
                     )}
                 </NavLink>
+                <NavLink to={"/category"} activeClassName="text-brand-500">
+                    {({ isActive }) => (
+                        <div className={`relative mb-3 flex hover:cursor-pointer ${isActive ? "text-brand-500" : "text-gray-600"}`}>
+                            <li className="my-[3px] flex cursor-pointer items-center px-8">
+                                <span className={`font-bold ${isActive ? "text-brand-500" : "text-gray-600"}`}>
+                                    <IoIosMedkit className="h-6 w-6" />
+                                </span>
+                                <p className={`leading-1 ml-4 flex ${isActive ? "text-navy-700 font-bold" : "text-gray-600 font-medium"}`}>
+                                    Danh mục<caption></caption>
+                                </p>
+                            </li>
+                            {isActive && <div className="absolute right-0 top-px h-9 w-1 rounded-lg bg-brand-500 dark:bg-brand-400" />}
+                        </div>
+                    )}
+                </NavLink>
                 <NavLink to={"/product"} activeClassName="text-brand-500">
                     {({ isActive }) => (
                         <div className={`relative mb-3 flex hover:cursor-pointer ${isActive ? "text-brand-500" : "text-gray-600"}`}>

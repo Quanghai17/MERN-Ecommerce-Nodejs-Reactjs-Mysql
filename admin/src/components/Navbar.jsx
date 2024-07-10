@@ -1,13 +1,44 @@
 import { useState } from 'react'
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FiSearch } from "react-icons/fi";
 import { FiAlignJustify } from "react-icons/fi";
 import Dropdown from "./dropdown/index";
 import avatar from "../assets/img/avatars/avatar4.png";
 import { RiMoonFill, RiSunFill } from "react-icons/ri";
+import { useSelector } from "react-redux";
+import axios from 'axios';
+import { toast } from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
+import { setUserDetails } from '../store/userSlice';
 
 const Navbar = () => {
   const [darkmode, setDarkmode] = useState(false);
+  const user = useSelector(state => state?.user?.user);
+
+  const dispatch = useDispatch()
+  const navigate = useNavigate();
+
+  // console.log("use", user);
+  const handleLogout = async () => {
+    const URL = `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/userLogout`
+
+    try {
+      const response = await axios({
+        method: "GET",
+        url: URL,
+        withCredentials: true,
+      })
+      const dataApi = response.data;
+      if (dataApi.success) {
+        toast.success(dataApi.message)
+        dispatch(setUserDetails(null))
+        navigate('/login');
+      }
+      // console.log("user detail", dataApi)
+    } catch (error) {
+      toast.error(error?.dataResponse?.data?.message)
+    }
+  }
   return (
     <nav className="sticky top-4 z-40 flex flex-row flex-wrap items-center justify-between rounded-xl bg-white/10 p-2 backdrop-blur-xl dark:bg-[#0b14374d]">
       <div className="ml-[6px]">
@@ -87,31 +118,19 @@ const Navbar = () => {
             <div className="p-4">
               <div className="flex items-center gap-2">
                 <p className="text-sm font-bold text-navy-700 dark:text-white">
-                  👋 Hey, Adela
+                  👋 Hey, { user?.name }
                 </p>{" "}
               </div>
             </div>
             <div className="h-px w-full bg-gray-200 dark:bg-white/20 " />
 
             <div className="flex flex-col p-4">
-              <a
-                href=" "
-                className="text-sm text-gray-800 dark:text-white hover:dark:text-white"
-              >
-                Profile Settings
-              </a>
-              <a
-                href=" "
-                className="mt-3 text-sm text-gray-800 dark:text-white hover:dark:text-white"
-              >
-                Newsletter Settings
-              </a>
-              <a
-                href=" "
+              <button
+                onClick={handleLogout}
                 className="mt-3 text-sm font-medium text-red-500 hover:text-red-500 transition duration-150 ease-out hover:ease-in"
               >
-                Log Out
-              </a>
+                Đăng xuất
+              </button>
             </div>
           </div>
         </Dropdown>
