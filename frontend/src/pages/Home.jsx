@@ -1,8 +1,11 @@
+import ListProduct from "../components/ListProduct"
 
 
 const Home = () => {
   return (
-    <div>Home</div>
+    <div>
+      <ListProduct/>
+    </div>
   )
 }
 

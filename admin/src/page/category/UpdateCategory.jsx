@@ -47,9 +47,32 @@ const UpdateCategory = () => {
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         e.stopPropagation();
+
+        const formData = new FormData();
+        formData.append('name', category.name);
+        formData.append('categoryImage', category.categoryImage); // File object
+        formData.append('description', category.description); 
+
+        const URL = `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/admin/updateCategory/${id}`;
+
+        try {
+            const response = await axios.post(URL, formData, {
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            toast.success(response.data.message);
+            if (response.data.success) {
+                navigate('/category');
+            }
+        } catch (error) {
+            toast.error(error?.response?.data?.message);
+            //console.log(error);
+        }
     }
 
     useEffect(() => {
@@ -113,7 +136,7 @@ const UpdateCategory = () => {
                                         type="submit"
                                         className="linear rounded-[20px] bg-brand-600 px-4 py-2 text-base font-medium text-white transition duration-200 hover:bg-brand-500 active:bg-gray-200 dark:bg-white/5 dark:text-white dark:hover:bg-white/10 dark:active:bg-white/20"
                                     >
-                                        Tạo danh mục
+                                        Sửa danh mục
                                     </button>
                                 </div>
                             </form>

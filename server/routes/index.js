@@ -7,6 +7,8 @@ const userSignInController = require("../controller/user/userSignIn")
 const authToken = require("../middleware/authToken")
 const userDetailsController = require("../controller/user/userDetails")
 const userLogoutController = require("../controller/user/userLogout")
+//frontend Product
+const GetAllProductController = require("../controller/frontend/product/getAllProduct")
 
 const authController = require("../controller/admin/auth/authController")
 //product
@@ -26,6 +28,10 @@ router.post("/signup",userSignUpController)
 router.post("/signin",userSignInController)
 router.get("/userDetail",authToken, userDetailsController )
 router.get("/userLogout",userLogoutController)
+
+//api frontend
+//product
+router.get("/products", GetAllProductController)
 
 //api admin
 router.post("/admin/login",authController)
