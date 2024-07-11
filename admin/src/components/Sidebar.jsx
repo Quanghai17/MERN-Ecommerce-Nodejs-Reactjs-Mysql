@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom";
 import DashIcon from "./icons/DashIcon";
 import { MdOutlineShoppingCart, MdPerson } from "react-icons/md";
 import { IoIosMedkit } from "react-icons/io";
+import { TbCategory } from "react-icons/tb";
 
 const Sidebar = ({ open, onClose }) => {
     return (
@@ -57,7 +58,7 @@ const Sidebar = ({ open, onClose }) => {
                         <div className={`relative mb-3 flex hover:cursor-pointer ${isActive ? "text-brand-500" : "text-gray-600"}`}>
                             <li className="my-[3px] flex cursor-pointer items-center px-8">
                                 <span className={`font-bold ${isActive ? "text-brand-500" : "text-gray-600"}`}>
-                                    <IoIosMedkit className="h-6 w-6" />
+                                    <TbCategory  className="h-6 w-6" />
                                 </span>
                                 <p className={`leading-1 ml-4 flex ${isActive ? "text-navy-700 font-bold" : "text-gray-600 font-medium"}`}>
                                     Danh mục<caption></caption>

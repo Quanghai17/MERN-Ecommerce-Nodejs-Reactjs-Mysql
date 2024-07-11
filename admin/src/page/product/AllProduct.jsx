@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom";
 import Checkbox from "../../components/checkbox/index";
 import { useEffect, useState } from "react";
-import { MdModeEditOutline } from "react-icons/md";
+import { MdDeleteOutline ,MdModeEditOutline } from "react-icons/md";
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
 
@@ -28,9 +28,28 @@ const AllProduct = () => {
         }
     }
 
+    const handleDelete = async (id) => {
+        const URL = `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/admin/deleteProduct/${id}`;
+
+        try {
+            await axios.delete(URL, {
+                withCredentials: true,
+            });
+
+            toast.success('Xóa sản phẩm thành công');
+            getAllProduct();
+        } catch (error) {
+            toast.error('Xóa sản phẩm thất bại');
+        }
+    };
+
     useEffect(() => {
         getAllProduct()
     }, [])
+
+    const formatPrice = (price) => {
+        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+    };
 
     return (
         <div>
@@ -120,7 +139,7 @@ const AllProduct = () => {
                                                 />
                                             </td>
                                             <td className="pt-[14px] pb-[16px] sm:text-[14px]">
-                                                {product.price}
+                                                {formatPrice(product.price)}
                                             </td>
                                             <td className="pt-[14px] pb-[16px] sm:text-[14px]">
                                                 {product.sellNumber}
@@ -132,7 +151,12 @@ const AllProduct = () => {
                                                 {product.Category?.name}
                                             </td>
                                             <td className="pt-[14px] pb-[16px] sm:text-[14px]">
-                                                <MdModeEditOutline className="h-5 w-5"/>
+                                                <div className="flex justify-center">
+                                                    <Link to={`/product/updateProduct/${product.id}`}>
+                                                        <MdModeEditOutline className="h-5 w-5" />
+                                                    </Link>
+                                                    <MdDeleteOutline className="h-5 w-5 cursor-pointer text-red-500" onClick={() => handleDelete(product.id)} />
+                                                </div>
                                             </td>
                                         </tr>
                                     ))}

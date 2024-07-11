@@ -9,6 +9,9 @@ import AllProduct from "../page/product/AllProduct.jsx";
 import CreateProduct from "../page/product/CreateProduct.jsx";
 import AllCategory from "../page/category/AllCategory.jsx";
 import CreateCategory from "../page/category/CreateCategory.jsx";
+import UpdateProduct from "../page/product/UpdateProduct.jsx";
+import UpdateCategory from "../page/category/UpdateCategory.jsx";
+
 
 const routes = createBrowserRouter([
     { 
@@ -28,12 +31,20 @@ const routes = createBrowserRouter([
                 element: <Layouts><CreateCategory/></Layouts>,
             },
             {
+                path: "/category/updateCategory/:id",
+                element: <Layouts><UpdateCategory/></Layouts>,
+            },
+            {
                 path: "/product",
                 element: <Layouts><AllProduct/></Layouts>,
             },
             {
                 path: "/product/createProduct",
                 element: <Layouts><CreateProduct/></Layouts>,
+            },
+            {
+                path: "/product/updateProduct/:id",
+                element: <Layouts><UpdateProduct/></Layouts>,
             },
             {
                 path: "/order",

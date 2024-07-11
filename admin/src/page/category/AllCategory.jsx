@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom";
 import Checkbox from "../../components/checkbox/index";
 import { useEffect, useState } from "react";
-import { MdModeEditOutline } from "react-icons/md";
+import { MdModeEditOutline, MdDeleteOutline } from "react-icons/md";
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
 
@@ -26,6 +26,21 @@ const AllCategory = () => {
             toast.error(error?.dataResponse?.data?.message)
         }
     }
+
+    const handleDelete = async (id) => {
+        const URL = `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/admin/deleteCategory/${id}`;
+
+        try {
+            await axios.delete(URL, {
+                withCredentials: true,
+            });
+
+            toast.success('Xóa danh mục thành công');
+            getAllCategories();
+        } catch (error) {
+            toast.error('Xóa danh mục thất bại');
+        }
+    };
 
     useEffect(() => {
         getAllCategories()
@@ -107,7 +122,14 @@ const AllCategory = () => {
                                                 {category.description}
                                             </td>
                                             <td className="pt-[14px] pb-[16px] sm:text-[14px]">
-                                                <MdModeEditOutline className="h-5 w-5" />
+                                                <div className="flex justify-center">
+                                                    <Link to={`/category/updateCategory/${category.id}`}>
+                                                        <MdModeEditOutline className="h-5 w-5" />
+                                                    </Link>
+
+                                                    <MdDeleteOutline className="h-5 w-5 cursor-pointer text-red-500" onClick={() => handleDelete(category.id)} />
+                                                </div>
+
                                             </td>
                                         </tr>
                                     ))}
