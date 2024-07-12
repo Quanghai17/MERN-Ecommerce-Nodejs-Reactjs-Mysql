@@ -9,6 +9,7 @@ const userDetailsController = require("../controller/user/userDetails")
 const userLogoutController = require("../controller/user/userLogout")
 //frontend Product
 const GetAllProductController = require("../controller/frontend/product/getAllProduct")
+const GetProductDetailFrontendController = require("../controller/frontend/product/getProductDetail")
 
 const authController = require("../controller/admin/auth/authController")
 //product
@@ -23,6 +24,10 @@ const CreateCategoryController = require("../controller/admin/category/createCat
 const DeleteCategoryController = require("../controller/admin/category/deleteCategory")
 const GetCategoryDetailController = require("../controller/admin/category/getCategoryDetail")
 const UpdateCategoryController = require("../controller/admin/category/updateCategory")
+//Cart
+const AddToCartController = require("../controller/frontend/cart/addToCart")
+const GetCountCartController = require("../controller/frontend/cart/getCountCart")
+
 //api user
 router.post("/signup",userSignUpController)
 router.post("/signin",userSignInController)
@@ -32,6 +37,10 @@ router.get("/userLogout",userLogoutController)
 //api frontend
 //product
 router.get("/products", GetAllProductController)
+router.get ("/getProductDetail/:id", GetProductDetailFrontendController)
+//add to cart
+router.post("/addToCart",authToken, AddToCartController)
+router.get("/getCountCart",authToken, GetCountCartController)
 
 //api admin
 router.post("/admin/login",authController)

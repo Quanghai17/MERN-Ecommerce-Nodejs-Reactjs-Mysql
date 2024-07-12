@@ -1,20 +1,44 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Logo from "./Logo";
 import { GrSearch } from "react-icons/gr";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { FaShoppingCart } from "react-icons/fa";
 import { Link } from 'react-router-dom';
-import { useSelector } from "react-redux";
 import axios from 'axios'
 import { toast } from 'react-hot-toast';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setUserDetails } from '../store/userSlice';
 import ROLE from '../common/role';
 
 const Header = () => {
   const user = useSelector(state => state?.user?.user);
   const [menuDisplay, setMenuDisplay] = useState(false)
+  const [countCart, setDataCountCart] = useState(0)
   const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart.items);
+  const totalItems = cartItems.reduce((total, item) => total + item.quantity, countCart);
+
+  const getCountCart = async () => {
+    const URL = `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/getCountCart`
+
+    try {
+      const response = await axios({
+        method: "GET",
+        url: URL,
+        withCredentials: true,
+      })
+      const countCart = response.data.data;
+      setDataCountCart(countCart);
+     // console.log("user detail", countCart)
+    } catch (error) {
+      toast.error(error?.dataResponse?.data?.message)
+    }
+  }
+
+  useEffect(() => {
+    getCountCart()
+  }, [])
+
   const handleLogout = async () => {
     const URL = `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/userLogout`
 
@@ -84,7 +108,7 @@ const Header = () => {
             <Link to={"/cart"} className='text-2xl relative'>
               <span><FaShoppingCart /></span>
               <div className='bg-blue-500 text-white w-5 h-5 rounded-full p-1 flex items-center justify-center absolute -top-2 -right-3'>
-                <p className='text-sm'>1</p>
+                <p className='text-sm'>{totalItems}</p>
               </div>
             </Link>
           </div>

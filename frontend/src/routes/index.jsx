@@ -3,6 +3,7 @@ import App from "../App"
 import Home from '../pages/Home'
 import Login from '../pages/Login'
 import SignUp from '../pages/SignUp'
+import ProductDetail from '../pages/product/ProductDetail'
 
 const routes = createBrowserRouter([
     {
@@ -12,6 +13,10 @@ const routes = createBrowserRouter([
             {
                 path: "",
                 element: <Home/>
+            },
+            {
+                path: "product/:id",
+                element: <ProductDetail/>
             },
             {
                 path: "login",

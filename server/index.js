@@ -15,6 +15,7 @@ app.use(cors({
 
 app.use(express.json());
 app.use(cookiesParser())
+
 app.use("/api",router);
 
 app.use('/public', express.static(path.join(__dirname, 'public')));
