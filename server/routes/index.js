@@ -27,6 +27,8 @@ const UpdateCategoryController = require("../controller/admin/category/updateCat
 //Cart
 const AddToCartController = require("../controller/frontend/cart/addToCart")
 const GetCountCartController = require("../controller/frontend/cart/getCountCart")
+const GetProductCartController = require("../controller/frontend/cart/getProductCart")
+const DeleteProductCartController = require("../controller/frontend/cart/deleteProductCart")
 
 //api user
 router.post("/signup",userSignUpController)
@@ -41,6 +43,8 @@ router.get ("/getProductDetail/:id", GetProductDetailFrontendController)
 //add to cart
 router.post("/addToCart",authToken, AddToCartController)
 router.get("/getCountCart",authToken, GetCountCartController)
+router.get("/getProductCart", authToken, GetProductCartController)
+router.delete("/deleteProductCart/:id",authToken, DeleteProductCartController)
 
 //api admin
 router.post("/admin/login",authController)
