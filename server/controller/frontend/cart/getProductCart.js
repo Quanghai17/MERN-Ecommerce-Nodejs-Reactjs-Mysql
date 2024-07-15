@@ -9,7 +9,7 @@ async function GetProductCartController (req, res) {
             where: { userId: userId },
             include: {
                 model: productModel,
-                attributes: ['name', "imageUrl", "price",]
+                attributes: ['id', 'name', "imageUrl", "price",]
             }
         });
 
