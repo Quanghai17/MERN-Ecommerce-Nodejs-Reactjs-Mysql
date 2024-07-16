@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom scrollbar width */
+.scrollbar::-webkit-scrollbar {
+  width: 0px;
+}
+
+::-webkit-scrollbar {
+  height: 5px;
+  width: 7px;
+  background-color: rgb(248, 172, 172);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgb(0, 0, 0);
+}

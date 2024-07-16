@@ -10,6 +10,9 @@ const userLogoutController = require("../controller/user/userLogout")
 //frontend Product
 const GetAllProductController = require("../controller/frontend/product/getAllProduct")
 const GetProductDetailFrontendController = require("../controller/frontend/product/getProductDetail")
+const GetProductsByCategoryController = require("../controller/frontend/product/getProductByCategory")
+//frontend Category
+const GetCategoriesController = require("../controller/frontend/category/getCategory")
 
 const authController = require("../controller/admin/auth/authController")
 //product
@@ -44,6 +47,9 @@ router.get("/userLogout",userLogoutController)
 //product
 router.get("/products", GetAllProductController)
 router.get ("/getProductDetail/:id", GetProductDetailFrontendController)
+router.get ("/category/:categoryId", GetProductsByCategoryController)
+//category
+router.get ("/categories", GetCategoriesController)
 //add to cart
 router.post("/addToCart",authToken, AddToCartController)
 router.get("/getCountCart",authToken, GetCountCartController)

@@ -9,7 +9,7 @@ const path = require('path');
 const app = express();
 
 app.use(cors({
-  origin: [process.env.FRONTEND_URL, process.env.ADMIN_URL],
+  origin: [process.env.FRONTEND_URL, process.env.ADMIN_URL, process.env.FRONTEND01_URL],
   credentials: true,
 }));
 
