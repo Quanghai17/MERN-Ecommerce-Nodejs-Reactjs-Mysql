@@ -42,9 +42,9 @@ const Footer = () => {
             <Typography variant="h6" gutterBottom>
               Thông tin liên hệ
             </Typography>
-            <Typography gutterBottom>Địa chỉ</Typography>
-            <Typography variant="body2">exclusive@gmail.com</Typography>
-            <Typography variant="body2">+88015-88888-9999</Typography>
+            <Typography gutterBottom>Địa chỉ: Tân Thịnh, tp Thái Nguyên, tỉnh Thái Nguyên</Typography>
+            <Typography variant="body2">tnshop6688@gmail.com</Typography>
+            <Typography variant="body2">0987.908.456</Typography>
           </Grid>
 
           {/* Account */}
@@ -65,7 +65,7 @@ const Footer = () => {
                   to="/account"
                   sx={{ color: "white" }}
                 >
-                  1
+                 Giới thiệu
                 </Link>
               </li>
               <li>
@@ -74,12 +74,12 @@ const Footer = () => {
                   to="/signup"
                   sx={{ color: "white" }}
                 >
-                  1
+                  Liên hệ
                 </Link>
               </li>
               <li>
                 <Link onClick={scrollToTop} to="/cart" sx={{ color: "white" }}>
-                  1
+                  Chính sách
                 </Link>
               </li>
               <li>
@@ -88,7 +88,7 @@ const Footer = () => {
                   to="/wishlist"
                   sx={{ color: "white" }}
                 >
-                  1
+                  Bảo mật
                 </Link>
               </li>
               <li>
@@ -97,7 +97,7 @@ const Footer = () => {
                   to="/category"
                   sx={{ color: "white" }}
                 >
-                  1
+                  Tư vấn khách hàng
                 </Link>
               </li>
             </ul>
@@ -117,23 +117,23 @@ const Footer = () => {
             <ul className="list-none p-0">
               <li>
                 <Link to="/allProducts" sx={{ color: "white" }}>
-                  1
+                  IPhone
                 </Link>
               </li>
               <li>
                 <Link to="/category" sx={{ color: "white" }}>
-                  1
+                  Ipad
                 </Link>
               </li>
 
               <li>
                 <Link onClick={scrollToTop} to="about" sx={{ color: "white" }}>
-                  1
+                  Mac
                 </Link>
               </li>
               <li>
                 <Link onClick={scrollToTop} to="about" sx={{ color: "white" }}>
-                  1
+                 Apple Watch
                 </Link>
               </li>
               <li>
@@ -142,7 +142,7 @@ const Footer = () => {
                   to="/contact"
                   sx={{ color: "white" }}
                 >
-                  1
+                  Tai Nghe
                 </Link>
               </li>
             </ul>
@@ -261,7 +261,7 @@ const Footer = () => {
       {/* Copyright */}
       <hr className="w-full border-gray-800 my-4" />
       <Typography variant="body2" className=" text-center text-gray-600">
-        1
+        Bản quyền thuộc về TN Shop
       </Typography>
     </footer>
   );

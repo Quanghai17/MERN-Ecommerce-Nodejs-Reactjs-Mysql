@@ -107,7 +107,7 @@ const UpdateProduct = () => {
 
     return (
         <div className='grid place-items-center'>
-            <div className="mt-5 grid h-full grid-cols-1 gap-5 md:grid-cols-2">
+            <div className="mt-5 grid h-full grid-cols-1 gap-5 md:grid-cols-1">
                 <div className='!z-5 relative flex flex-col rounded-[20px] bg-white bg-clip-border shadow-3xl shadow-shadow-500 dark:!bg-navy-800 dark:text-white dark:shadow-none '>
                     <div className='w-full sm:overflow-auto p-4'>
                         <header className="relative flex items-center justify-between">

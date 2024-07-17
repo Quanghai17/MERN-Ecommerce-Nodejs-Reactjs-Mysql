@@ -2,10 +2,16 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import displayINRCurrency from '../../helpers/displayCurrency';
-//import WishlistIcon from "./WishlistIcon";
+import addToCart from '../../helpers/addToCartHelpres';
+import { useDispatch } from 'react-redux';
 
 const ProductItem = ({ item }) => {
-    const [isHovered, setIsHovered] = useState(false);
+    const [isHovered, setIsHovered] = useState(false); 
+    const dispatch = useDispatch();
+
+    const handleAddToCart = async(e,id)=>{
+        await addToCart(e,id, dispatch)
+     }
 
     // Function to render stars
     const renderStars = () => {
@@ -30,14 +36,16 @@ const ProductItem = ({ item }) => {
     };
 
     return (
-        <div className="relative mx-2 ">
+        <div className="relative mx-2 mt-5">
             <div
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
                 className="relative rounded flex items-center justify-center bg-zinc-100 w-[270px] h-80 md:h-60 transform transition-transform duration-300 hover:scale-105 focus:outline-none hover:-translate-y-2"
             >
                 {isHovered && (
-                    <button className={`z-10 absolute bottom-0 left-0 right-0 bg-black text-white py-2 px-4  duration-300  hover:bg-gray-800 focus:outline-none bg-red-500"`}>
+                    <button
+                    onClick={(e)=>handleAddToCart(e,item?.id)}
+                    className={`z-10 absolute bottom-0 left-0 right-0 bg-black text-white py-2 px-4  duration-300  hover:bg-gray-800 focus:outline-none bg-red-500"`}>
                         Thêm vào giỏ
                     </button>
                 )}

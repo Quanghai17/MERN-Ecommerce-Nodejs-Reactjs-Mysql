@@ -43,7 +43,6 @@ const ListProduct = () => {
     }
 
     const handleAddToCart = async(e,id)=>{
-       // dispatch(addItem({ productId: id, quantity: 1 }));
         await addToCart(e,id, dispatch)
      }
 

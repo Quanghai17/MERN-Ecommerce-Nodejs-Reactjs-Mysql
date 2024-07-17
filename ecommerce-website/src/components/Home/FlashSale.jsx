@@ -30,7 +30,6 @@ const FlashSale = () => {
         getListProduct()
     }, [])
 
-    console.log("products", products)
     return (
         <div className=" p-4 ">
             <RedTitle title='Sản phẩm nổi bật' />

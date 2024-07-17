@@ -1,9 +1,36 @@
-
+import { useState } from "react";
 import IconButton from "@mui/material/IconButton";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
+import { toast } from 'react-hot-toast';
+import { setUserDetails } from '../../store/userSlice';
 
 const Profile = () => {
+  const user = useSelector(state => state?.user?.user);
+  const [menuDisplay, setMenuDisplay] = useState(false)
+  const dispatch = useDispatch();
 
+  const handleLogout = async () => {
+    const URL = `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/userLogout`
+
+    try {
+      const response = await axios({
+        method: "GET",
+        url: URL,
+        withCredentials: true,
+      })
+      const dataApi = response.data;
+      setMenuDisplay(false);
+      if (dataApi.success) {
+        toast.success(dataApi.message)
+        dispatch(setUserDetails(null))
+      }
+      // console.log("user detail", dataApi)
+    } catch (error) {
+      toast.error(error?.dataResponse?.data?.message)
+    }
+  }
 
   return (
     <div className="flex justify-between md:justify-around items-center md:gap-4 md:ml-4 ">
@@ -86,6 +113,59 @@ const Profile = () => {
           </svg>
         </IconButton>
       </Link>
+
+      <IconButton
+        size="small"
+        aria-controls={open ? "account-menu" : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? "true" : undefined}
+      >
+        <div className="relative group flex justify-center">
+          {
+            user?.id ? (
+              <div className='text-3xl cursor-pointer relative flex justify-center' onClick={() => setMenuDisplay(preve => !preve)}>
+                <svg
+                  className="hover:bg-red-500 rounded-full w-6 md:w-8 md:h-8"
+                  width="32"
+                  height="32"
+                  viewBox="0 0 32 32"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M24 27V24.3333C24 22.9188 23.5224 21.5623 22.6722 20.5621C21.8221 19.5619 20.669 19 19.4667 19H11.5333C10.331 19 9.17795 19.5619 8.32778 20.5621C7.47762 21.5623 7 22.9188 7 24.3333V27"
+                    stroke="black"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M16.5 14C18.9853 14 21 11.9853 21 9.5C21 7.01472 18.9853 5 16.5 5C14.0147 5 12 7.01472 12 9.5C12 11.9853 14.0147 14 16.5 14Z"
+                    stroke="black"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
+            ) : (
+              <Link to={"/login"} className='px-3 py-2 rounded-full text-white bg-blue-500 hover:bg-blue-700'>Đăng nhập</Link>
+            )
+          }
+          {
+            menuDisplay && (
+              <div className='absolute bg-white bottom-0 top-11 h-fit p-2 shadow-lg rounded text-black' >
+                <nav>
+                  <Link className='whitespace-nowrap hidden md:block hover:bg-slate-100 p-2' onClick={() => setMenuDisplay(preve => !preve)}>Thông tin cá nhân</Link>
+                </nav>
+                <nav>
+                  <div className='whitespace-nowrap hidden md:block hover:bg-slate-100 p-2' onClick={handleLogout}>Đăng xuất</div>
+                </nav>
+              </div>
+            )
+          }
+        </div>
+      </IconButton>
     </div>
   )
 }

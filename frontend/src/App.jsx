@@ -32,7 +32,7 @@ function App() {
   }
 
   useEffect(() => {
-    userDetail()
+    userDetail() 
   }, [])
   return (
     <>

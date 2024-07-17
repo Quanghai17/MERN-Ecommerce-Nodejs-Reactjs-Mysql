@@ -29,7 +29,7 @@ const Header = () => {
       })
       const countCart = response.data.data;
       setDataCountCart(countCart);
-     // console.log("user detail", countCart)
+     // console.log("user detail", countCart) 
     } catch (error) {
       toast.error(error?.dataResponse?.data?.message)
     }
