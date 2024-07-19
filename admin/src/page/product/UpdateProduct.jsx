@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { Link } from "react-router-dom";
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
+import { Editor } from "@tinymce/tinymce-react";
 
 const UpdateProduct = () => {
     const { id } = useParams();
@@ -15,46 +15,43 @@ const UpdateProduct = () => {
         stock: "",
         sellNumber: "",
         categoryId: "",
-    })
-    const [categories, setCategories] = useState([])
+    });
+
+    const [categories, setCategories] = useState([]);
+    const [editorContent, setEditorContent] = useState("");
     const navigate = useNavigate();
+
     const getProduct = async () => {
-        const URL = `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/admin/getProductDetail/${id}`
-
+        const URL = `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/admin/getProductDetail/${id}`;
         try {
-            const response = await axios({
-                method: "GET",
-                url: URL,
+            const response = await axios.get(URL, {
                 withCredentials: true,
-            })
-
+            });
             const dataProduct = response.data.data;
-            // console.log(dataProduct);
             setProduct(dataProduct);
+            setEditorContent(dataProduct.body);
         } catch (error) {
-            toast.error(error?.dataResponse?.data?.message)
+            toast.error(error?.response?.data?.message);
         }
-    }
+    };
 
     const getAllCategories = async () => {
-        const URL = `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/admin/categories`
+        const URL = `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/admin/categories`;
         try {
-            const response = await axios({
-                method: "GET",
-                url: URL,
+            const response = await axios.get(URL, {
                 withCredentials: true,
-            })
+            });
             const dataCategories = response.data.data;
             setCategories(dataCategories);
         } catch (error) {
-            toast.error(error?.dataResponse?.data?.message)
+            toast.error(error?.response?.data?.message);
         }
-    }
+    };
 
     useEffect(() => {
-        getProduct(),
-            getAllCategories()
-    }, [])
+        getProduct();
+        getAllCategories();
+    }, []);
 
     const handleOnChange = (e) => {
         const { name, value } = e.target;
@@ -70,7 +67,15 @@ const UpdateProduct = () => {
                 [name]: value,
             }));
         }
-    }
+    };
+
+    const handleEditorChange = (newValue, editor) => {
+        setEditorContent(newValue);
+        setProduct((prev) => ({
+            ...prev,
+            body: newValue
+        }));
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -101,9 +106,10 @@ const UpdateProduct = () => {
             }
         } catch (error) {
             toast.error(error?.response?.data?.message);
-            //console.log(error);
         }
-    }
+    };
+
+    const apiKey = `${import.meta.env.VITE_REACT_API_KEY_TINYMCE}`;
 
     return (
         <div className='grid place-items-center'>
@@ -172,10 +178,12 @@ const UpdateProduct = () => {
                                             onChange={handleOnChange}
                                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         />
-                                        <img
-                                            src={`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/${product.imageUrl}`}
-                                            alt={product.name}
-                                            style={{ width: '70px', height: 'auto' }} />
+                                        {product.imageUrl && (
+                                            <img
+                                                src={`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/${product.imageUrl}`}
+                                                alt={product.name}
+                                                style={{ width: '70px', height: 'auto' }} />
+                                        )}
                                     </div>
                                     <div className="w-full">
                                         <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Số lượng bán ra</label>
@@ -192,26 +200,34 @@ const UpdateProduct = () => {
                                         <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Danh mục sản phẩm</label>
                                         <select id="category"
                                             name="categoryId"
+                                            value={product.categoryId}
                                             onChange={handleOnChange}
                                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                            <option selected="" value={product.Category?.id}>{product.Category?.name}</option>
+                                            <option value="">Chọn danh mục</option>
                                             {categories.map((category, index) => (
                                                 <option key={index} value={category.id}> {category.name} </option>
                                             ))}
-
                                         </select>
                                     </div>
                                     <div className="sm:col-span-2">
                                         <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Giới thiệu sản phẩm</label>
-                                        <textarea
-                                            name="body"
-                                            value={product.body}
-                                            onChange={handleOnChange}
-                                            rows="8"
-                                            className="block p-2.5 w-full text-sm text-gray-800 placeholder-gray-500 border border-gray-300 rounded-lg focus:outline-none focus:ring-primary-600 focus:border-primary-600 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                            placeholder="Giới thiệu sản phẩm"
-                                            required
-                                        ></textarea>
+                                        <Editor
+                                            apiKey= {apiKey}
+                                            value={editorContent}
+                                            onEditorChange={handleEditorChange}
+                                            init={{
+                                                height: 300,
+                                                menubar: false,
+                                                plugins: [
+                                                    'advlist autolink lists link image charmap print preview anchor',
+                                                    'searchreplace visualblocks code fullscreen',
+                                                    'insertdatetime media table paste code help wordcount'
+                                                ],
+                                                toolbar: 'undo redo | formatselect | bold italic backcolor | \
+                                                          alignleft aligncenter alignright alignjustify | \
+                                                          bullist numlist outdent indent | removeformat | help'
+                                            }}
+                                        />
                                     </div>
                                 </div>
                                 <div className="mt-8">
@@ -228,7 +244,7 @@ const UpdateProduct = () => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default UpdateProduct
+export default UpdateProduct;

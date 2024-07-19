@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
+import { Editor } from "@tinymce/tinymce-react";
 
 const CreateProduct = () => {
     const [data, setData] = useState({
@@ -15,6 +16,18 @@ const CreateProduct = () => {
         sellNumber: "",
         categoryId: "",
     });
+
+    //const apiKey = '${import.meta.env.VITE_REACT_API_KEY_TINYMCE}';
+    const apiKey = `${import.meta.env.VITE_REACT_API_KEY_TINYMCE}`;
+    const [editorContent, setEditorContent] = useState("");
+
+    const onEditorInputChange = (newValue, editor) => {
+        setEditorContent(newValue);
+        setData((prev) => ({
+            ...prev,
+            body: newValue
+        }));
+    };
 
     const [categories, setCategories] = useState([])
 
@@ -185,15 +198,11 @@ const CreateProduct = () => {
                                     </div>
                                     <div className="sm:col-span-2">
                                         <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Giới thiệu sản phẩm</label>
-                                        <textarea
-                                            name="body"
-                                            value={data.body}
-                                            onChange={handleOnChange}
-                                            rows="8"
-                                            className="block p-2.5 w-full text-sm text-gray-800 placeholder-gray-500 border border-gray-300 rounded-lg focus:outline-none focus:ring-primary-600 focus:border-primary-600 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                            placeholder="Giới thiệu sản phẩm"
-                                            required
-                                        ></textarea>
+                                        <Editor apiKey={apiKey} 
+                                        onEditorChange={(newValue, editor) => onEditorInputChange(newValue, editor)}
+                                        value={editorContent}
+                                        name="body"
+                                        />
                                     </div>
                                 </div>
                                 <div className="mt-8">
