@@ -4,7 +4,7 @@ import App from "../App.jsx";
 import Home from "../page/Home.jsx";
 import Layouts from "../layout/index";
 import Login from "../page/Login";
-import Order from "../page/Order.jsx";
+import AllOrder from "../page/order/AllOrder.jsx";
 import AllProduct from "../page/product/AllProduct.jsx";
 import CreateProduct from "../page/product/CreateProduct.jsx";
 import AllCategory from "../page/category/AllCategory.jsx";
@@ -48,7 +48,7 @@ const routes = createBrowserRouter([
             },
             {
                 path: "/order",
-                element: <Layouts><Order/></Layouts>
+                element: <Layouts><AllOrder/></Layouts>
             }
         ]
     },

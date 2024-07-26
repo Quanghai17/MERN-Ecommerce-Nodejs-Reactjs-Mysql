@@ -24,7 +24,18 @@ const Order = sequelize.define('Order', {
     shippingAddress: {
         type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: 'Pending'
+    },
+    name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    email: {
+        type: DataTypes.STRING,
+        allowNull: false, 
+    },
+    phone: {
+        type: DataTypes.STRING,
+        allowNull: false,
     }
 }, {
     timestamps: true,

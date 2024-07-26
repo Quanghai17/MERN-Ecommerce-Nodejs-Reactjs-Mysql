@@ -1,9 +1,11 @@
 const { Order, OrderItem } = require("../../../models/orderModel");
 const Product = require("../../../models/productModel");
+const cartModel = require("../../../models/cartModel");
 
 async function CreateOrderController(req, res) {
     const currentUserId = req.userId
-    const { items, shippingAddress } = req.body;
+    const { items } = req.body;
+    const {  shippingAddress, name, phone, email } = req.body.data;
 
     if (!currentUserId || !items || items.length === 0) {
         return res.status(400).json({ message: 'Không có dữ liệu' });
@@ -25,6 +27,9 @@ async function CreateOrderController(req, res) {
             userId : currentUserId,
             totalAmount,
             shippingAddress,
+            name,
+            email,
+            phone
         });
 
         for (const item of items) {
@@ -35,6 +40,10 @@ async function CreateOrderController(req, res) {
                 price: item.price,
             });
         }
+
+        const cart = await cartModel.destroy({
+            where: { userId: currentUserId },
+        });
 
         return res.status(201).json({
             message: 'Thanh toán thành công',

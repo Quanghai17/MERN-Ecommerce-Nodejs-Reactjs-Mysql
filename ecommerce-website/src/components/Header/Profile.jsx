@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import IconButton from "@mui/material/IconButton";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,7 +10,6 @@ const Profile = () => {
   const user = useSelector(state => state?.user?.user);
   const [menuDisplay, setMenuDisplay] = useState(false)
   const dispatch = useDispatch();
-
   const handleLogout = async () => {
     const URL = `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/userLogout`
 
@@ -31,6 +30,31 @@ const Profile = () => {
       toast.error(error?.dataResponse?.data?.message)
     }
   }
+
+  const [countCart, setDataCountCart] = useState(0)
+  const cartItems = useSelector((state) => state.cart.items);
+  const totalItems = cartItems.reduce((total, item) => total + item.quantity, countCart);
+
+  const getCountCart = async () => {
+    const URL = `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/getCountCart`
+
+    try {
+      const response = await axios({
+        method: "GET",
+        url: URL,
+        withCredentials: true,
+      })
+      const countCart = response.data.data;
+      setDataCountCart(countCart);
+      // console.log("user detail", countCart) 
+    } catch (error) {
+      toast.error(error?.dataResponse?.data?.message)
+    }
+  }
+
+  useEffect(() => {
+    getCountCart()
+  }, [])
 
   return (
     <div className="flex justify-between md:justify-around items-center md:gap-4 md:ml-4 ">
@@ -73,7 +97,7 @@ const Profile = () => {
           <span
             className={`absolute ml-5 mb-5 px-1 rounded-full text-white text-sm bg-red-500`}
           >
-            2
+            {totalItems}
           </span>
 
           <svg

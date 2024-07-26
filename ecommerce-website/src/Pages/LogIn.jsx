@@ -60,8 +60,6 @@ const LogIn = () => {
         }
     }
 
-    console.log("data", data)
-
     return (
         <div className="relative flex max-lg:flex-col-reverse justify-center  md:justify-start items-center mb-36 gap-12 lg:mt-28 xl:gap-24 ">
             <img src={SignImg} alt="Sign Image" />

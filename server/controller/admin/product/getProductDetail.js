@@ -1,4 +1,3 @@
-const uploadPermission = require("../../../helpers/permission")
 const productModel = require("../../../models/productModel")
 const categoryModel = require("../../../models/categoryModel")
 

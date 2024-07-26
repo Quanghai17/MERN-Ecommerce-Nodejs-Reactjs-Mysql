@@ -5,6 +5,8 @@ import About from "./Pages/About";
 import Contact from "./Pages/Contact";
 import LogIn from "./Pages/LogIn";
 import SignUp from "./Pages/SignUp";
+import Cart from "./Pages/Cart";
+import Checkout from "./Pages/Checkout";
 
 const routes = [
     {
@@ -16,7 +18,9 @@ const routes = [
             {path: "/about", element: About},
             {path: "/contact", element: Contact},
             {path: "/login", element: LogIn},
-            {path: "/signUp", element: SignUp}
+            {path: "/signUp", element: SignUp},
+            {path: "/cart", element: Cart},
+            {path: "/checkout", element: Checkout}
         ]
     }
 ]

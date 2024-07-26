@@ -1,7 +1,7 @@
 const cartModel = require("../../../models/cartModel");
 
 async function DeleteAllProductController (req, res) {
-    try {
+    try { 
         const userId = req.userId
         const cart = await cartModel.destroy({
             where: { userId: userId },

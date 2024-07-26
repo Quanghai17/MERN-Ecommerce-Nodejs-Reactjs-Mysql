@@ -9,7 +9,7 @@ import { toast } from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUserDetails } from '../store/userSlice';
 import ROLE from '../common/role';
-
+ 
 const Header = () => {
   const user = useSelector(state => state?.user?.user);
   const [menuDisplay, setMenuDisplay] = useState(false)

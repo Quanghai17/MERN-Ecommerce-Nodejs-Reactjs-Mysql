@@ -13,7 +13,17 @@ const GetProductDetailFrontendController = require("../controller/frontend/produ
 const GetProductsByCategoryController = require("../controller/frontend/product/getProductByCategory")
 //frontend Category
 const GetCategoriesController = require("../controller/frontend/category/getCategory")
+//Order
+const CreateOrderController = require("../controller/frontend/order/createOrderController")
+//Cart
+const AddToCartController = require("../controller/frontend/cart/addToCart")
+const GetCountCartController = require("../controller/frontend/cart/getCountCart")
+const GetProductCartController = require("../controller/frontend/cart/getProductCart")
+const DeleteProductCartController = require("../controller/frontend/cart/deleteProductCart")
+const UpdateProductCartController = require("../controller/frontend/cart/updateProductCart")
+const DeleteAllProductController = require("../controller/frontend/cart/deleteAllProduct")
 
+//Admin
 const authController = require("../controller/admin/auth/authController")
 //product
 const CreateProductController = require("../controller/admin/product/createProduct")
@@ -27,15 +37,10 @@ const CreateCategoryController = require("../controller/admin/category/createCat
 const DeleteCategoryController = require("../controller/admin/category/deleteCategory")
 const GetCategoryDetailController = require("../controller/admin/category/getCategoryDetail")
 const UpdateCategoryController = require("../controller/admin/category/updateCategory")
-//Cart
-const AddToCartController = require("../controller/frontend/cart/addToCart")
-const GetCountCartController = require("../controller/frontend/cart/getCountCart")
-const GetProductCartController = require("../controller/frontend/cart/getProductCart")
-const DeleteProductCartController = require("../controller/frontend/cart/deleteProductCart")
-const UpdateProductCartController = require("../controller/frontend/cart/updateProductCart")
-const DeleteAllProductController = require("../controller/frontend/cart/deleteAllProduct")
-//Order
-const CreateOrderController = require("../controller/frontend/order/createOrderController")
+//order
+const GetOrderController = require("../controller/admin/order/getOrder")
+const DeleteOrderController = require("../controller/admin/order/deleteOrder")
+
 
 //api user
 router.post("/signup",userSignUpController)
@@ -74,5 +79,8 @@ router.post("/admin/createCategory",authToken, upload.single('categoryImage'), C
 router.delete("/admin/deleteCategory/:id",authToken, DeleteCategoryController)
 router.get("/admin/getCategoryDetail/:id", authToken, GetCategoryDetailController)
 router.post("/admin/updateCategory/:id", authToken, upload.single('categoryImage'), UpdateCategoryController)
+//order admin
+router.get("/admin/orders", authToken, GetOrderController)
+router.delete("/admin/deleteOrder/:id", authToken, DeleteOrderController)
 
 module.exports = router

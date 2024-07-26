@@ -113,7 +113,7 @@ const Cart = () => {
                         <p className='bg-white py-5'>Chưa có sản phẩm nào</p>
                     )
                 }
-            </div>
+            </div> 
 
             <div className='flex flex-col lg:flex-row gap-10 lg:justify-between p-4'>
                 <div className='w-full max-w-3xl'>
