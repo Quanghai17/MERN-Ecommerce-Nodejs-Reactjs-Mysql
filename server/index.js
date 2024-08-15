@@ -8,10 +8,10 @@ const path = require('path');
 
 const app = express();
 
-app.use(cors({
-  origin: [process.env.FRONTEND_URL, process.env.ADMIN_URL, process.env.FRONTEND01_URL],
-  credentials: true,
-}));
+// app.use(cors({
+//   origin: '*',
+//   credentials: true,
+// }));
 
 app.use(express.json());
 app.use(cookiesParser())
